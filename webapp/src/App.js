@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import LinkList from './components/LinkList';
 
 class App extends Component {
   render() {
+    const links = [
+      {
+        description: "yyy",
+        url: "yyypasserby.github.io"
+      },
+      {
+        description: "mmq",
+        url: "mengqim.github.io"
+      }
+    ]
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <LinkList links={links}/>
     );
   }
 }
