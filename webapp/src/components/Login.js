@@ -14,8 +14,8 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <div>
-          <h4>{this.state.login ? 'Login' : 'Sign Up'}</h4>
+        <h4 className='mv3'>{this.state.login ? 'Login' : 'Sign Up'}</h4>
+        <div className='flex flex-column'>
           <input
             type='text'
             placeholder='Your email address'
@@ -29,13 +29,13 @@ class Login extends Component {
             value={this.state.password}
           />
         </div>
-        <div>
-          <button onClick={this._confirm}>
+        <div className='flex mt3'>
+          <div className='pointer mr2 button' onClick={this._confirm}>
             {this.state.login ? 'login' : 'create account'}
-          </button>
-          <button onClick={() => this.setState(prev => ({ login: !prev.login }))}>
+          </div>
+          <div className='pointer button' onClick={() => this.setState(prev => ({ login: !prev.login }))}>
             {this.state.login ? 'need a new account' : 'already have an account'}
-          </button>
+          </div>
         </div>
       </div>
     );
