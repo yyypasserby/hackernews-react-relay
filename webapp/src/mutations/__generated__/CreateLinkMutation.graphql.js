@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash da7a6032cf385851ba0f04d43b42a3ee
+ * @relayHash 775b1215f8d9024dd23c054672fc6216
  */
 
 /* eslint-disable */
@@ -19,7 +19,8 @@ export type CreateLinkInput = {
   clientMutationId: string,
 };
 export type LinkpostedByUser = {
-  name: string,
+  email: string,
+  password: string,
   linksIds?: ?$ReadOnlyArray<string>,
   links?: ?$ReadOnlyArray<UserlinksLink>,
   votesIds?: ?$ReadOnlyArray<string>,
@@ -36,7 +37,8 @@ export type LinkvotesVote = {
   user?: ?VoteuserUser,
 };
 export type VoteuserUser = {
-  name: string,
+  email: string,
+  password: string,
   linksIds?: ?$ReadOnlyArray<string>,
   links?: ?$ReadOnlyArray<UserlinksLink>,
   votesIds?: ?$ReadOnlyArray<string>,
@@ -64,6 +66,10 @@ export type CreateLinkMutationResponse = {|
       +createdAt: any,
       +description: string,
       +url: string,
+      +postedBy: ?{|
+        +id: string,
+        +email: string,
+      |},
     |}
   |}
 |};
@@ -84,6 +90,10 @@ mutation CreateLinkMutation(
       createdAt
       description
       url
+      postedBy {
+        id
+        email
+      }
     }
   }
 }
@@ -98,7 +108,14 @@ var v0 = [
     "defaultValue": null
   }
 ],
-v1 = [
+v1 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "id",
+  "args": null,
+  "storageKey": null
+},
+v2 = [
   {
     "kind": "LinkedField",
     "alias": null,
@@ -124,13 +141,7 @@ v1 = [
         "concreteType": "Link",
         "plural": false,
         "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "id",
-            "args": null,
-            "storageKey": null
-          },
+          v1,
           {
             "kind": "ScalarField",
             "alias": null,
@@ -151,6 +162,25 @@ v1 = [
             "name": "url",
             "args": null,
             "storageKey": null
+          },
+          {
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "postedBy",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "User",
+            "plural": false,
+            "selections": [
+              v1,
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "name": "email",
+                "args": null,
+                "storageKey": null
+              }
+            ]
           }
         ]
       }
@@ -162,7 +192,7 @@ return {
   "operationKind": "mutation",
   "name": "CreateLinkMutation",
   "id": null,
-  "text": "mutation CreateLinkMutation(\n  $input: CreateLinkInput!\n) {\n  createLink(input: $input) {\n    link {\n      id\n      createdAt\n      description\n      url\n    }\n  }\n}\n",
+  "text": "mutation CreateLinkMutation(\n  $input: CreateLinkInput!\n) {\n  createLink(input: $input) {\n    link {\n      id\n      createdAt\n      description\n      url\n      postedBy {\n        id\n        email\n      }\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -170,16 +200,16 @@ return {
     "type": "Mutation",
     "metadata": null,
     "argumentDefinitions": v0,
-    "selections": v1
+    "selections": v2
   },
   "operation": {
     "kind": "Operation",
     "name": "CreateLinkMutation",
     "argumentDefinitions": v0,
-    "selections": v1
+    "selections": v2
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'e3c0842e6f83166cc29d6c3698711fe5';
+(node/*: any*/).hash = '2e09143045e3579a87a10852420064e2';
 module.exports = node;
