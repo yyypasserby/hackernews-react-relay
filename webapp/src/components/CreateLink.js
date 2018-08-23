@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { GC_USER_ID } from '../constants';
+
 import CreateLinkMutation from '../mutations/CreateLinkMutation';
 
 class CreateLink extends Component {

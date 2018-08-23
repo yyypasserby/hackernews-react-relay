@@ -1,14 +1,15 @@
-import { GC_AUTH_TOKEN } from './constants';
+import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
-import {Environment, Network, RecordSource, Store} from 'relay-runtime';
+import {
+  GC_AUTH_TOKEN,
+  GRAPH_COOL_ENDPOINT,
+  PROJECT_ID,
+} from './constants';
 
 const store = new Store(new RecordSource());
 
-const GRAPH_COOL_ENDPOINT = 'https://api.graph.cool/relay/v1/';
-const RELAY_API_ENDPOINT = GRAPH_COOL_ENDPOINT + 'cjl49i77l2nkj0129xvzmfa76';
-
 const network = Network.create((operation, variables) => {
-  return fetch(RELAY_API_ENDPOINT, {
+  return fetch(GRAPH_COOL_ENDPOINT + PROJECT_ID, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

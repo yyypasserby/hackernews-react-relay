@@ -17,7 +17,11 @@ export type LinkList_viewer = {|
       +node: {|
         +$fragmentRefs: Link_link$ref
       |}
-    |}>
+    |}>,
+    +pageInfo: {|
+      +hasNextPage: boolean,
+      +endCursor: ?string,
+    |},
   |},
   +$refType: LinkList_viewer$ref,
 |};
@@ -31,23 +35,41 @@ const node/*: ConcreteFragment*/ = {
   "metadata": {
     "connection": [
       {
-        "count": null,
-        "cursor": null,
-        "direction": "backward",
+        "count": "count",
+        "cursor": "after",
+        "direction": "forward",
         "path": [
           "allLinks"
         ]
       }
     ]
   },
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "kind": "RootArgument",
+      "name": "count",
+      "type": "Int"
+    },
+    {
+      "kind": "RootArgument",
+      "name": "after",
+      "type": "String"
+    }
+  ],
   "selections": [
     {
       "kind": "LinkedField",
       "alias": "allLinks",
       "name": "__LinkList_allLinks_connection",
-      "storageKey": null,
-      "args": null,
+      "storageKey": "__LinkList_allLinks_connection(orderBy:\"createdAt_DESC\")",
+      "args": [
+        {
+          "kind": "Literal",
+          "name": "orderBy",
+          "value": "createdAt_DESC",
+          "type": "LinkOrderBy"
+        }
+      ],
       "concreteType": "LinkConnection",
       "plural": false,
       "selections": [
@@ -104,14 +126,14 @@ const node/*: ConcreteFragment*/ = {
             {
               "kind": "ScalarField",
               "alias": null,
-              "name": "hasPreviousPage",
+              "name": "hasNextPage",
               "args": null,
               "storageKey": null
             },
             {
               "kind": "ScalarField",
               "alias": null,
-              "name": "startCursor",
+              "name": "endCursor",
               "args": null,
               "storageKey": null
             }
@@ -122,5 +144,5 @@ const node/*: ConcreteFragment*/ = {
   ]
 };
 // prettier-ignore
-(node/*: any*/).hash = 'c8b60409488c6ebd4c9f08f9c5eb8395';
+(node/*: any*/).hash = '18e0bd92c6aa7c78488ea0c7c9e84aab';
 module.exports = node;

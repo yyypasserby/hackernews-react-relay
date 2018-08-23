@@ -6,6 +6,7 @@ import {
 } from 'react-relay';
 
 import { GC_USER_ID } from '../constants';
+
 import CreateVoteMutation from '../mutations/CreateVoteMutation';
 import environment from '../Environment';
 import { timeDifferenceForDate } from '../utils';
