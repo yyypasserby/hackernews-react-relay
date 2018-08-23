@@ -72,8 +72,6 @@ export default createPaginationContainer(LinkList,
       return props.viewer && props.viewer.allLinks;
     },
     getFragmentVariables(previousVariables, totalCount) {
-      console.log('variables', previousVariables);
-      console.log('total count', totalCount);
       return {
         ...previousVariables,
         count: totalCount
