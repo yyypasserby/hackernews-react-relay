@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import {
   createFragmentContainer,
+  fetchQuery,
   graphql
 } from 'react-relay';
 
 import { GC_USER_ID } from '../constants';
+import CreateVoteMutation from '../mutations/CreateVoteMutation';
+import environment from '../Environment';
 import { timeDifferenceForDate } from '../utils';
 
 class Link extends Component {
@@ -25,6 +28,46 @@ class Link extends Component {
       </div>
     );
   }
+
+  _voteForLink = async () => {
+    const userId = localStorage.getItem(GC_USER_ID);
+    if (!userId) {
+      console.log(`Can't vote without user ID.`);
+      return;
+    }
+
+    const linkId = this.props.link.id;
+    const canUserVoteOnLink = await this._userCanVoteOnLink(userId, linkId);
+    if (canUserVoteOnLink) {
+      CreateVoteMutation(userId, linkId);
+    } else {
+      console.log('You have already voted for this link.');
+    }
+  };
+
+  _userCanVoteOnLink = async (userId, linkId) => {
+    const query = graphql`
+      query LinkCheckVoteQuery($voteFilter: VoteFilter!) {
+        viewer {
+          allVotes(filter: $voteFilter) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const result = await fetchQuery(environment, query, {
+      voteFilter: {
+        user: { id: userId },
+        link: { id: linkId }
+      }
+    });
+    return result.viewer.allVotes.edges.length === 0;
+  };
 }
 
 export default createFragmentContainer(Link, graphql`
