@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
 import {
+  FlatList,
+  ScrollView,
+  StyleSheet
+} from 'react-native';
+import {
   createFragmentContainer,
   graphql
 } from 'react-relay';
-import { View } from 'react-native';
 
 import Link from './Link'
 
 class LinkList extends Component {
   render() {
+    const items = this.props.viewer.allLinks.edges.map(({ node }, index) => ({
+      node,
+      key: index + ""
+    }));
     return (
-      <View>
-        {this.props.viewer.allLinks.edges.map(({ node }, index) =>
-          <Link key={node.__id} index={index} link={node} />
-        )}
-      </View>
+      <ScrollView>
+        <FlatList
+          contentContainerStyle={styles.listView}
+          initialNumToRender={5}
+          data={items}
+          renderItem={({ item } ) =>
+            <Link link={item.node} />
+          }
+        />
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  listView: {
+    flex: 1,
+  }
+});
 
 export default createFragmentContainer(LinkList, graphql`
   fragment LinkList_viewer on Viewer {

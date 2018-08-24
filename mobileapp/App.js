@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-import LinkListPage from './src/components/LinkListPage';
+import MainView from './src/MainView';
 
 class App extends Component {
   render() {
     return (
-      <LinkListPage />
+      <MainView />
     );
   }
 }
