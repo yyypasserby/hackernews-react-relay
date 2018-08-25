@@ -15,15 +15,13 @@ class LinkList extends Component {
   render() {
     const items = this.props.viewer.allLinks.edges.map(({ node }, index) => ({
       node,
-      key: index + ""
+      key: index + ''
     }));
     return (
       <ScrollView>
         <FlatList
-          contentContainerStyle={styles.listView}
-          initialNumToRender={5}
           data={items}
-          renderItem={({ item } ) =>
+          renderItem={({ item }) =>
             <Link link={item.node} />
           }
         />

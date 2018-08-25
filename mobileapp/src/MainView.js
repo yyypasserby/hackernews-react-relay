@@ -3,37 +3,46 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
+import { Route } from 'react-router-native';
 
 import {
-  COLOR_ORANGE,
+  COLOR_ORANGE_PRIMARY,
   COLOR_BG_GRAY,
   FONT_PRIMARY,
 } from './constants';
 
-import LinkListPage from './components/LinkListPage';
+import AccountView from './components/AccountView';
 import BottomBar from  './components/BottomBar';
+import CreateLinkView from './components/CreateLinkView';
+import LinkListView from './components/LinkListView';
 
-const TABS = ['new', 'submit', 'account'];
+const TABS = [{
+  name: 'new',
+  path: '/'
+}, {
+  name: 'submit',
+  path: '/submit'
+}, {
+  name: 'account',
+  path: '/account'
+}];
 
 class MainView extends Component {
-  state = {
-    currentTab: TABS[0]
-  }
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Hacker News</Text>
-        <LinkListPage />
-        <BottomBar tabs={TABS} onPress={this._setCurrentTab} />
+        <View style={styles.tabView}>
+          <Route exact path={TABS[0].path} component={LinkListView} />
+          <Route path={TABS[1].path} component={CreateLinkView} />
+          <Route path={TABS[2].path} component={AccountView} />
+        </View>
+        <BottomBar tabs={TABS} />
       </SafeAreaView>
     );
   }
-
-  _setCurrentTab = (tab) => {
-    this.setState({ currentTab: tab });
-  };
 }
 
 const styles = StyleSheet.create({
@@ -44,9 +53,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     padding: 10,
-    backgroundColor: COLOR_ORANGE,
+    backgroundColor: COLOR_ORANGE_PRIMARY,
     fontFamily: 'Verdana',
   },
+  tabView: {
+    flex: 1,
+  }
 });
 
 export default MainView;

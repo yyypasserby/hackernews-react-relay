@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   description: {
     color: 'black',
     fontSize: 20,
-    padding: 30,
+    padding: 5,
   },
   link: {
     color: 'gray',

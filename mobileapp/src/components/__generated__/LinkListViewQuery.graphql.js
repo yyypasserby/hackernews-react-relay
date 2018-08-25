@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 8c777e927b0ef6e2d4b0a0f70886f07b
+ * @relayHash a83c3c89396e0f5aaeaa4a6020b478c0
  */
 
 /* eslint-disable */
@@ -10,21 +10,21 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type LinkList_viewer$ref = any;
-export type LinkListPageQueryVariables = {||};
-export type LinkListPageQueryResponse = {|
+export type LinkListViewQueryVariables = {||};
+export type LinkListViewQueryResponse = {|
   +viewer: {|
     +$fragmentRefs: LinkList_viewer$ref
   |}
 |};
-export type LinkListPageQuery = {|
-  variables: LinkListPageQueryVariables,
-  response: LinkListPageQueryResponse,
+export type LinkListViewQuery = {|
+  variables: LinkListViewQueryVariables,
+  response: LinkListViewQueryResponse,
 |};
 */
 
 
 /*
-query LinkListPageQuery {
+query LinkListViewQuery {
   viewer {
     ...LinkList_viewer
     id
@@ -80,13 +80,13 @@ v1 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "LinkListPageQuery",
+  "name": "LinkListViewQuery",
   "id": null,
-  "text": "query LinkListPageQuery {\n  viewer {\n    ...LinkList_viewer\n    id\n  }\n}\n\nfragment LinkList_viewer on Viewer {\n  allLinks(last: 100, orderBy: createdAt_DESC) {\n    edges {\n      node {\n        ...Link_link\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Link_link on Link {\n  id\n  description\n  url\n}\n",
+  "text": "query LinkListViewQuery {\n  viewer {\n    ...LinkList_viewer\n    id\n  }\n}\n\nfragment LinkList_viewer on Viewer {\n  allLinks(last: 100, orderBy: createdAt_DESC) {\n    edges {\n      node {\n        ...Link_link\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Link_link on Link {\n  id\n  description\n  url\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "LinkListPageQuery",
+    "name": "LinkListViewQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": [],
@@ -111,7 +111,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "LinkListPageQuery",
+    "name": "LinkListViewQuery",
     "argumentDefinitions": [],
     "selections": [
       {
@@ -227,5 +227,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '2c2833bffc47f6918a457dc5fe6b01ca';
+(node/*: any*/).hash = '41637a08e2d262b1a77fa4dd777d86be';
 module.exports = node;
