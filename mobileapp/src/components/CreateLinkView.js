@@ -25,9 +25,9 @@ class CreateLinkView extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-          placeholder='Description'
-          onChangeText={text => this.setState({ description: text })}
           style={styles.textInput}
+          onChangeText={text => this.setState({ description: text })}
+          placeholder='Description'
         />
         <TextInput
           style={styles.textInput}

@@ -33,14 +33,14 @@ class BottomBar extends Component {
 
 const styles = StyleSheet.create({
   bottomBar: {
+    backgroundColor: COLOR_ORANGE_PRIMARY,
     height: 64,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: COLOR_ORANGE_PRIMARY,
   },
   bottomBarButton: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
   },
   text: {

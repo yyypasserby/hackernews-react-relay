@@ -42,8 +42,8 @@ class LinkListView extends Component {
 
 const styles = StyleSheet.create({
   indicator: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
   },
 });

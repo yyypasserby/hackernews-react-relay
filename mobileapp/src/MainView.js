@@ -47,14 +47,14 @@ class MainView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLOR_BG_GRAY,
+    flex: 1,
   },
   header: {
-    fontSize: 24,
-    padding: 10,
     backgroundColor: COLOR_ORANGE_PRIMARY,
     fontFamily: 'Verdana',
+    fontSize: 24,
+    padding: 10,
   },
   tabView: {
     flex: 1,
