@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
 
 import {
@@ -14,10 +12,13 @@ import {
 } from './constants';
 
 import LinkListPage from './components/LinkListPage';
+import BottomBar from  './components/BottomBar';
+
+const TABS = ['new', 'submit', 'account'];
 
 class MainView extends Component {
   state = {
-    currentTab: 'new'
+    currentTab: TABS[0]
   }
 
   render() {
@@ -25,11 +26,7 @@ class MainView extends Component {
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Hacker News</Text>
         <LinkListPage />
-        <View style={styles.bottomBar}>
-          <Text onPress={() => this._setCurrentTab('new')} style={styles.bottomBarButton}>New</Text>
-          <Text onPress={() => this._setCurrentTab('submit')} style={styles.bottomBarButton}>Submit</Text>
-          <Text onPress={() => this._setCurrentTab('account')} style={styles.bottomBarButton}>Account</Text>
-        </View>
+        <BottomBar tabs={TABS} onPress={this._setCurrentTab} />
       </SafeAreaView>
     );
   }
@@ -40,23 +37,13 @@ class MainView extends Component {
 }
 
 const styles = StyleSheet.create({
-  bottomBar: {
-    height: 64,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    backgroundColor: COLOR_ORANGE,
-  },
-  bottomBarButton: {
-    color: FONT_PRIMARY,
-    fontFamily: 'Verdana',
-  },
   container: {
     flex: 1,
     backgroundColor: COLOR_BG_GRAY,
   },
   header: {
     fontSize: 24,
+    padding: 10,
     backgroundColor: COLOR_ORANGE,
     fontFamily: 'Verdana',
   },
