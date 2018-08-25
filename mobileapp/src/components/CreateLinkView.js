@@ -13,6 +13,8 @@ import {
   FONT_PRIMARY,
 } from '../constants';
 
+import CreateLinkMutation from '../mutations/CreateLinkMutation';
+
 class CreateLinkView extends Component {
   state = {
     description: '',
@@ -40,7 +42,8 @@ class CreateLinkView extends Component {
   }
 
   _submit = () => {
-
+    const { description, url } = this.state;
+    CreateLinkMutation(description, url, () => this.props.history.push('/'));
   };
 }
 
