@@ -42,7 +42,7 @@ class Login extends Component {
     );
   }
 
-  _confirm = async () => {
+  _confirm = () => {
     const { email, password } = this.state;
     if (this.state.login) {
       AuthenticateUserMutation(email, password, (id, token) => {
