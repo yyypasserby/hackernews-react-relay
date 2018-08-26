@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   Button,
   StyleSheet,
   Text,
@@ -11,6 +12,7 @@ import {
 import {
   COLOR_GRAY,
   FONT_PRIMARY,
+  GC_USER_ID,
 } from '../constants';
 
 import CreateLinkMutation from '../mutations/CreateLinkMutation';
@@ -41,9 +43,15 @@ class CreateLinkView extends Component {
     );
   }
 
-  _submit = () => {
+  _submit = async () => {
+    let userId = null;
+    try {
+      userId = await AsyncStorage.getItem(GC_USER_ID);
+    } catch (err) {
+      console.log('Fetch userId failed!');
+    }
     const { description, url } = this.state;
-    CreateLinkMutation(description, url, () => this.props.history.push('/'));
+    CreateLinkMutation(userId, description, url, () => this.props.history.push('/'));
   };
 }
 

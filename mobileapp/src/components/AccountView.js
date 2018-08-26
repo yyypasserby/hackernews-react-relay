@@ -86,27 +86,25 @@ class AccountView extends Component {
   _confirm = () => {
     const { email, password } = this.state;
     if (this.state.login) {
-      AuthenticateUserMutation(email, password, (id, token) => {
-        this._saveUserData(id, token);
+      AuthenticateUserMutation(email, password, async (id, token) => {
+        await this._saveUserData(id, token);
         this.setState({ userId: id });
       });
     } else {
-      SignupUserMutation(email, password, (id, token) => {
-        this._saveUserData(id, token);
+      SignupUserMutation(email, password, async (id, token) => {
+        await this._saveUserData(id, token);
         this.setState({ userId: id });
       });
     }
   };
 
-  _saveUserData = (id, token) => {
-    (async () => {
-      try {
-        await AsyncStorage.setItem(GC_USER_ID, id);
-        await AsyncStorage.setItem(GC_AUTH_TOKEN, token);
-      } catch (err) {
-        console.error('Set userId failed!');
-      }
-    })();
+  _saveUserData = async (id, token) => {
+    try {
+      await AsyncStorage.setItem(GC_USER_ID, id);
+      await AsyncStorage.setItem(GC_AUTH_TOKEN, token);
+    } catch (err) {
+      console.error('Set userId failed!');
+    }
   };
 
   _logout = async () => {
