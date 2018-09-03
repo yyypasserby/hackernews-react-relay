@@ -40,10 +40,10 @@ export default (userId, linkId, callback) => {
       variables,
       optimisticUpdater: proxyStore => {
         const link = proxyStore.get(linkId);
-        const currentVoteCount = link.getLinkedRecord('votes').getValue('count');
-        const newVoteCount = currentVoteCount + 1;
-
-        link.getLinkedRecord('votes').setValue(newVoteCount, 'count');
+        const currentVoteCount = link
+        .getLinkedRecord('votes')
+        .getValue('count');
+        link.getLinkedRecord('votes').setValue(currentVoteCount + 1, 'count');
       },
       updater: proxyStore => {
         const link = proxyStore.get(linkId);
