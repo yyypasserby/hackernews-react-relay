@@ -33,9 +33,9 @@ export default (postedById, description, url, callback) => {
       mutation,
       variables,
       onCompleted: () => {
-        callback();
+        callback(null);
       },
-      onError: err => console.log(err)
+      onError: err => callback(err)
     }
   );
 };

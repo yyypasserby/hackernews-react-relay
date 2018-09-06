@@ -5,6 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import { Route } from 'react-router-native';
 
 import {
@@ -34,6 +35,7 @@ class MainView extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Hacker News</Text>
+        <FlashMessage position='top' />
         <View style={styles.tabView}>
           <Route exact path={TABS[0].path} component={LinkListView} />
           <Route path={TABS[1].path} component={CreateLinkView} />

@@ -1,3 +1,7 @@
+import { showMessage } from 'react-native-flash-message';
+
+import { COLOR_ORANGE_PRIMARY } from './constants';
+
 function timeDifference(current, previous) {
   const milliSecondsPerMinute = 60 * 1000;
   const milliSecondsPerHour = milliSecondsPerMinute * 60;
@@ -40,4 +44,19 @@ export function timeDifferenceForDate(date) {
   const now = new Date().getTime();
   const updated = new Date(date).getTime();
   return timeDifference(now, updated);
+}
+
+export function showMessageAndLog(type, message) {
+  if (type !== 'danger') {
+    showMessage({
+      message,
+      backgroundColor: COLOR_ORANGE_PRIMARY,
+    });
+  } else {
+    showMessage({
+      message,
+      type,
+    });
+  }
+  console.log(`[${type}] ${message}`);
 }

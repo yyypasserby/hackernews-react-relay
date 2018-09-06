@@ -34,7 +34,7 @@ class BottomBar extends Component {
 const styles = StyleSheet.create({
   bottomBar: {
     backgroundColor: COLOR_ORANGE_PRIMARY,
-    height: 64,
+    height: 48,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

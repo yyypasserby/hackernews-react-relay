@@ -26,14 +26,14 @@ export default (email, password, callback) => {
       mutation,
       variables,
       onCompleted: resp => {
-        if (this.signupUser) {
+        if (resp.signupUser) {
           const { id, token } = this.signupUser;
-          callback(id, token);
+          callback(null, id, token);
         } else {
-          console.log('Sign up user failed!');
+          callback(new Error('Sign up user failed!'));
         }
       },
-      onError: err => console.error(err)
+      onError: err => callback(err)
     }
   );
 };

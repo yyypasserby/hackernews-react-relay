@@ -9,10 +9,14 @@ import {
   fetchQuery,
   graphql,
 } from 'react-relay';
+import { withRouter } from 'react-router';
 
 import CreateVoteMutation from '../mutations/CreateVoteMutation';
 import environment from '../Environment';
-import { timeDifferenceForDate } from '../utils';
+import {
+  showMessageAndLog,
+  timeDifferenceForDate,
+} from '../utils';
 
 class Link extends Component {
   render() {
@@ -41,14 +45,15 @@ class Link extends Component {
   _voteForLink = async () => {
     const {link, userId} = this.props;
     if (!userId) {
-      console.log(`Can't vote without user ID`);
+      showMessageAndLog('info', `Can't vote without user ID`);
+      this.props.history.push('/account');
       return;
     }
     const canUserVoteOnLink = await this._userCanVoteOnLink(userId, link.id);
     if (canUserVoteOnLink) {
       CreateVoteMutation(userId, link.id);
     } else {
-      console.log('You have already vote on this link.');
+      showMessageAndLog('info', 'You have already vote on this link.');
     }
   };
 
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default createFragmentContainer(Link, graphql`
+export default withRouter(createFragmentContainer(Link, graphql`
   fragment Link_link on Link {
     id
     description
@@ -107,4 +112,4 @@ export default createFragmentContainer(Link, graphql`
       count
     }
   }
-`);
+`));

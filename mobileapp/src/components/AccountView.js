@@ -14,6 +14,7 @@ import {
   GC_USER_ID,
   GC_AUTH_TOKEN,
 } from '../constants';
+import { showMessageAndLog } from '../utils';
 
 import AuthenticateUserMutation from '../mutations/AuthenticateUserMutation';
 import SignupUserMutation from '../mutations/SignupUserMutation';
@@ -34,9 +35,9 @@ class AccountView extends Component {
         if (userId) {
           this.setState({ userId });
         }
-        this.setState({ isLoading: false });
       } catch (err) {
-        console.log('Fetching userId failed!');
+        showMessageAndLog('danger', 'Fetch userId failed!');
+      } finally {
         this.setState({ isLoading: false });
       }
     })();
@@ -86,15 +87,28 @@ class AccountView extends Component {
 
   _confirm = () => {
     const { email, password } = this.state;
+    this.setState({ isLoading: true });
     if (this.state.login) {
-      AuthenticateUserMutation(email, password, async (id, token) => {
-        await this._saveUserData(id, token);
-        this.setState({ userId: id });
+      AuthenticateUserMutation(email, password, async (err, id, token) => {
+        if (err) {
+          showMessageAndLog('info', err.message);
+        } else {
+          await this._saveUserData(id, token);
+          this.setState({ userId: id });
+          showMessageAndLog('info', 'Login successfully!');
+        }
+        this.setState({ isLoading: false });
       });
     } else {
-      SignupUserMutation(email, password, async (id, token) => {
-        await this._saveUserData(id, token);
-        this.setState({ userId: id });
+      SignupUserMutation(email, password, async (err, id, token) => {
+        if (err) {
+          showMessageAndLog('info', err.message);
+        } else {
+          await this._saveUserData(id, token);
+          this.setState({ userId: id, isLoading: false });
+          showMessageAndLog('info', 'Signup successfully!');
+        }
+        this.setState({ isLoading: false });
       });
     }
   };
@@ -113,6 +127,7 @@ class AccountView extends Component {
       await AsyncStorage.removeItem(GC_USER_ID);
       await AsyncStorage.removeItem(GC_AUTH_TOKEN);
       this.setState({ userId: null });
+      showMessageAndLog('info', 'Logout successfully!');
     } catch (err) {
       console.error('Remove userId failed!');
     }

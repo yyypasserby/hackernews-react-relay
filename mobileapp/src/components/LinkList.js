@@ -11,9 +11,8 @@ import {
   graphql
 } from 'react-relay';
 
-import {
-  GC_USER_ID,
-} from '../constants';
+import { GC_USER_ID } from '../constants';
+import { showMessageAndLog } from '../utils';
 
 import Link from './Link';
 
@@ -30,9 +29,9 @@ class LinkList extends Component {
         if (userId) {
           this.setState({ userId });
         }
-        this.setState({ isLoading: false });
       } catch (err) {
-        console.log('Fetching userId failed!');
+        showMessageAndLog('danger', 'Fetch userId failed!');
+      } finally {
         this.setState({ isLoading: false });
       }
     })();

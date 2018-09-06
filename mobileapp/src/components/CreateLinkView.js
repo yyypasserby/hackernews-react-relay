@@ -13,6 +13,7 @@ import {
   FONT_PRIMARY,
   GC_USER_ID,
 } from '../constants';
+import { showMessageAndLog } from '../utils';
 
 import CreateLinkMutation from '../mutations/CreateLinkMutation';
 
@@ -47,10 +48,17 @@ class CreateLinkView extends Component {
     try {
       userId = await AsyncStorage.getItem(GC_USER_ID);
     } catch (err) {
-      console.log('Fetch userId failed!');
+      showMessageAndLog('danger', 'Fetch userId failed!');
     }
     const { description, url } = this.state;
-    CreateLinkMutation(userId, description, url, () => this.props.history.push('/'));
+    CreateLinkMutation(userId, description, url, (err) => {
+      if (err) {
+        showMessageAndLog('danger', err.message);
+      } else {
+        showMessageAndLog('info', `Post successfully!`);
+        this.props.history.push('/');
+      }
+    });
   };
 }
 

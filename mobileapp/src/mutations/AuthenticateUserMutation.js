@@ -28,12 +28,12 @@ export default (email, password, callback) => {
       onCompleted: resp => {
         if (resp.authenticateUser) {
           const { id, token } = resp.authenticateUser;
-          callback(id, token);
+          callback(null, id, token);
         } else {
-          console.log('Authenticate user failed!');
+          callback(new Error('Authenticate user failed!'));
         }
       },
-      onError: err => console.error(err)
+      onError: err => callback(err)
     }
   );
 };
