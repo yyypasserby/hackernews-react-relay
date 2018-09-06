@@ -1,18 +1,48 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
+  AsyncStorage,
   FlatList,
   ScrollView,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import {
   createFragmentContainer,
   graphql
 } from 'react-relay';
 
-import Link from './Link'
+import {
+  GC_USER_ID,
+} from '../constants';
+
+import Link from './Link';
 
 class LinkList extends Component {
+  state = {
+    isLoading: true,
+    userId: null,
+  }
+
+  componentDidMount() {
+    (async () => {
+      try {
+        const userId = await AsyncStorage.getItem(GC_USER_ID);
+        if (userId) {
+          this.setState({ userId });
+        }
+        this.setState({ isLoading: false });
+      } catch (err) {
+        console.log('Fetching userId failed!');
+        this.setState({ isLoading: false });
+      }
+    })();
+  }
+
   render() {
+    if (this.state.isLoading) {
+      return <ActivityIndicator style={styles.indicator} />;
+    }
+
     const items = this.props.viewer.allLinks.edges.map(({ node }, index) => ({
       node,
       key: index + ''
@@ -22,7 +52,7 @@ class LinkList extends Component {
         <FlatList
           data={items}
           renderItem={({ item }) =>
-            <Link link={item.node} />
+            <Link link={item.node} userId={this.state.userId} />
           }
         />
       </ScrollView>
@@ -31,9 +61,11 @@ class LinkList extends Component {
 }
 
 const styles = StyleSheet.create({
-  listView: {
+  indicator: {
+    alignItems: 'center',
     flex: 1,
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default createFragmentContainer(LinkList, graphql`

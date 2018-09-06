@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  AsyncStorage,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  AsyncStorage,
 } from 'react-native';
 
 import {
@@ -37,6 +37,7 @@ class AccountView extends Component {
         this.setState({ isLoading: false });
       } catch (err) {
         console.log('Fetching userId failed!');
+        this.setState({ isLoading: false });
       }
     })();
   }
@@ -119,6 +120,11 @@ class AccountView extends Component {
 }
 
 const styles = StyleSheet.create({
+  buttonText: {
+    color: FONT_PRIMARY,
+    fontSize: 30,
+    padding: 10,
+  },
   container: {
     flex: 1,
   },
@@ -132,11 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     padding: 10,
   },
-  buttonText: {
-    color: FONT_PRIMARY,
-    fontSize: 30,
-    padding: 10,
-  }
 });
 
 export default AccountView;

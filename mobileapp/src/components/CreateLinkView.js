@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 import {
-  COLOR_GRAY,
   FONT_PRIMARY,
   GC_USER_ID,
 } from '../constants';

@@ -6,27 +6,75 @@ import {
 } from 'react-native';
 import {
   createFragmentContainer,
-  graphql
+  fetchQuery,
+  graphql,
 } from 'react-relay';
 
+import CreateVoteMutation from '../mutations/CreateVoteMutation';
+import environment from '../Environment';
 import { timeDifferenceForDate } from '../utils';
 
 class Link extends Component {
   render() {
+    const {
+      createdAt,
+      description,
+      postedBy,
+      url,
+      votes,
+    } = this.props.link;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={this._voteForLink}>
         <Text style={styles.description}>
-          {this.props.link.description}
+          {description}
           <Text style={styles.url}>
-            ({this.props.link.url})
+            ({url})
           </Text>
         </Text>
         <Text style={styles.info}>
-          {this.props.link.votes.count} votes | by {this.props.link.postedBy ? this.props.link.postedBy.email : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}
+          {votes.count} votes | by {postedBy ? postedBy.email : 'Unknown'} {timeDifferenceForDate(createdAt)}
         </Text>
       </TouchableOpacity>
     );
   }
+
+  _voteForLink = async () => {
+    const {link, userId} = this.props;
+    if (!userId) {
+      console.log(`Can't vote without user ID`);
+      return;
+    }
+    const canUserVoteOnLink = await this._userCanVoteOnLink(userId, link.id);
+    if (canUserVoteOnLink) {
+      CreateVoteMutation(userId, link.id);
+    } else {
+      console.log('You have already vote on this link.');
+    }
+  };
+
+  _userCanVoteOnLink = async (userId, linkId) => {
+    const query = graphql`
+      query LinkCheckVoteQuery($voteFilter: VoteFilter!) {
+        viewer {
+          allVotes(filter: $voteFilter) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const result = await fetchQuery(environment, query, {
+      voteFilter: {
+        user: { id: userId },
+        link: { id: linkId },
+      },
+    });
+    return result.viewer.allVotes.edges.length === 0;
+  };
 }
 
 const styles = StyleSheet.create({
@@ -35,14 +83,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
   },
-  url: {
-    color: 'gray',
-  },
   info: {
     fontSize: 15,
     paddingLeft: 5,
     color: 'gray',
-  }
+  },
+  url: {
+    color: 'gray',
+  },
 });
 
 export default createFragmentContainer(Link, graphql`
