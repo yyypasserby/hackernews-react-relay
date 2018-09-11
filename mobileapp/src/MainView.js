@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -51,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLOR_BG_GRAY,
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
     backgroundColor: COLOR_ORANGE_PRIMARY,
